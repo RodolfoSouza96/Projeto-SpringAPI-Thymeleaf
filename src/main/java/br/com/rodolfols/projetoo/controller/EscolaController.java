@@ -1,12 +1,17 @@
 package br.com.rodolfols.projetoo.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,13 +41,15 @@ public class EscolaController {
 	private EnderecoRepository enderecoRepository;
 	
 	@GetMapping
-	public List<EscolaDto> lista(){
-		List<Escola> escola = escolaRepository.findAll();
+	@Cacheable(value="listaDeEscolas")
+	public Page<EscolaDto> lista(@PageableDefault(sort = "id", direction = Direction.ASC, page = 0, size = 10)Pageable paginacao){
+		Page<Escola> escola = escolaRepository.findAll(paginacao);
 		return EscolaDto.converter(escola);
 	}
 	
 	@PostMapping
 	@Transactional
+	@CacheEvict(value="listaDeEscolas", allEntries = true)
 	public ResponseEntity<EscolaDto> cadastrar(@RequestBody @Valid EscolaForm form, UriComponentsBuilder uriBuilder) {
 		Escola escola = form.converter(form, enderecoRepository);
 		escolaRepository.save(escola);
@@ -59,6 +66,7 @@ public class EscolaController {
 	
 	@PutMapping("{id}")
 	@Transactional
+	@CacheEvict(value="listaDeEscolas", allEntries = true)
 	public ResponseEntity<EscolaDto> atualizar(@PathVariable Integer id, @RequestBody @Valid AtualizacaoEscolaForm form){
 		Escola escola = form.atualizar(id, escolaRepository, enderecoRepository);
 		
@@ -67,6 +75,7 @@ public class EscolaController {
 	
 	@DeleteMapping("{id}")
 	@Transactional
+	@CacheEvict(value="listaDeEscolas", allEntries = true)
 	public ResponseEntity<String> remover(@PathVariable Integer id) {
 		escolaRepository.deleteById(id);
 		

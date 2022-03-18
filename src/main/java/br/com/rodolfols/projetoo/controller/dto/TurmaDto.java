@@ -1,7 +1,6 @@
 package br.com.rodolfols.projetoo.controller.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 import br.com.rodolfols.projetoo.modelo.Turma;
 
@@ -41,8 +40,8 @@ public class TurmaDto {
 		this.capacidade = capacidade;
 	}
 	
-	public static List<TurmaDto> converter(List<Turma> turmas) {
-		return turmas.stream().map(TurmaDto::new).collect(Collectors.toList());
+	public static Page<TurmaDto> converter(Page<Turma> turmas) {
+		return turmas.map(TurmaDto::new);
 	}
 	
 	

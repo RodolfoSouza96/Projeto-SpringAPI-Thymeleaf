@@ -1,7 +1,6 @@
 package br.com.rodolfols.projetoo.controller.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 import br.com.rodolfols.projetoo.modelo.Escola;
 
@@ -44,8 +43,8 @@ public class EscolaDto {
 		this.enderecoId = enderecoId;
 	}
 
-	public static List<EscolaDto> converter(List<Escola> escolas) {
-		return escolas.stream().map(EscolaDto::new).collect(Collectors.toList());
+	public static Page<EscolaDto> converter(Page<Escola> escolas){
+		return escolas.map(EscolaDto::new);
 	}
 
 }

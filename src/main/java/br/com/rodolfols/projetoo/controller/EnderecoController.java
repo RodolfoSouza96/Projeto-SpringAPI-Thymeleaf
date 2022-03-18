@@ -1,12 +1,17 @@
 package br.com.rodolfols.projetoo.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +37,15 @@ public class EnderecoController {
 	private EnderecoRepository enderecoRepository;
 	
 	@GetMapping
-	public List<EnderecoDto> lista(){
-		List<Endereco> endereco = enderecoRepository.findAll();
+	@Cacheable(value ="listaDeEnderecos")
+	public Page<EnderecoDto> lista(@PageableDefault(sort = "logradouro", direction = Direction.ASC, page = 0, size = 10) Pageable paginacao){
+		Page<Endereco> endereco = enderecoRepository.findAll(paginacao);
 		return EnderecoDto.converter(endereco);
 	}
 	
 	@PostMapping
 	@Transactional
+	@CacheEvict(value= "listaDeEnderecos", allEntries = true)
 	public ResponseEntity<EnderecoDto> cadastrar(@RequestBody @Valid EnderecoForm form, UriComponentsBuilder uriBuilder) {
 		Endereco endereco = form.converter();
 		enderecoRepository.save(endereco);
@@ -55,6 +62,7 @@ public class EnderecoController {
 	
 	@PutMapping("{logradouro}")
 	@Transactional
+	@CacheEvict(value= "listaDeEnderecos", allEntries = true)
 	public ResponseEntity<EnderecoDto> atualizar(@PathVariable String logradouro, @RequestBody @Valid AtualizacaoEnderecoForm form){
 		Endereco endereco = form.atualizar(logradouro, enderecoRepository);
 		
@@ -63,6 +71,7 @@ public class EnderecoController {
 	
 	@DeleteMapping("{logradouro}")
 	@Transactional
+	@CacheEvict(value= "listaDeEnderecos", allEntries = true)
 	public ResponseEntity<String> remover(@PathVariable String logradouro) {
 		enderecoRepository.deleteById(logradouro);
 		

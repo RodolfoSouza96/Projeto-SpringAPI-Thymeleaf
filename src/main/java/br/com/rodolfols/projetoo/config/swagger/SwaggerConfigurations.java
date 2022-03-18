@@ -11,13 +11,15 @@ import springfox.documentation.spring.web.plugins.Docket;
 @Configuration
 public class SwaggerConfigurations {
 
-	@Bean
-	public Docket projetoApi() {
-		return new Docket(DocumentationType.SWAGGER_2)
-				.select()
-				.apis(RequestHandlerSelectors.basePackage("br.com.rodolfo.projetoo"))
-				.paths(PathSelectors.ant("/**"))
-				.build();
-	}
-	
+    @Bean
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+        		.select()
+                .apis(RequestHandlerSelectors.basePackage("br.com.rodolfols.projetoo"))
+                .paths(PathSelectors.ant("/**"))
+                .build();
+    }
+    
+    
+
 }

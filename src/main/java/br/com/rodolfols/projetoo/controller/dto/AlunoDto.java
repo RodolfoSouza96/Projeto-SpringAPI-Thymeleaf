@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+
 import br.com.rodolfols.projetoo.modelo.Aluno;
 
 public class AlunoDto {
@@ -32,5 +34,11 @@ public class AlunoDto {
 
 	public static List<AlunoDto> converter(List<Aluno> alunos) {
 		return alunos.stream().map(AlunoDto::new).collect(Collectors.toList());
-	}	
+	}
+	
+	public static Page<AlunoDto> converter(Page<Aluno> alunos){
+		return alunos.map(AlunoDto::new);
+	}
+	
+	
 }

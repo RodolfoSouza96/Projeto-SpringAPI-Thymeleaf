@@ -1,7 +1,6 @@
 package br.com.rodolfols.projetoo.controller.dto;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 
 import br.com.rodolfols.projetoo.modelo.Endereco;
 
@@ -41,8 +40,8 @@ public class EnderecoDto {
 		return estado;
 	}
 	
-	public static List<EnderecoDto> converter(List<Endereco> enderecos) {
-		return enderecos.stream().map(EnderecoDto::new).collect(Collectors.toList());
+	public static Page<EnderecoDto> converter(Page<Endereco> enderecos) {
+		return enderecos.map(EnderecoDto::new);
 	}	
 	
 	
