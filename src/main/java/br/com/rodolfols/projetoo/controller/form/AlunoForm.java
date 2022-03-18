@@ -2,10 +2,10 @@ package br.com.rodolfols.projetoo.controller.form;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
