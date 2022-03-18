@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}">
+</head>
+<body>
+
+<div th:replace="~{base :: logo}"></div>	
+	
+	<div class="container">
+		<div th:replace="~{base :: titulo('Pagina Escolar - Listagem de Aluno por ID')}"></div>
+	
+		<div th:replace="~{base :: navegador}"></div>
+		
+		<form th:object="${aluno}" action="/aluno/listarPorIdnovo" method="POST" class="card-body">
+	        <div class="form-group">
+	        	<label class="form-label" >Aluno ID</label>
+                <input th:field="*{id}" type="text" class="form-control" placeholder="Aluno Id - ex: 5" />
+	        </div>  
+				<button type="submit" class="btn btn-info mb-3">Search</button>
+				
+			<div class="card mb-3">
+				<div class="card-body">
+						<div>ID: <span th:text="${aluno.id}"></span></div>
+						<div>Nome: <span th:text="${aluno.nome}"></span></div>
+						<div>Data de Nascimento: <span th:text="${#temporals.format(aluno.dataDeNascimento, 'dd/MM/yyyy')}"></span></div>
+				</div>
+			
+			</div>	
+    	</form>
+	</div>
+
+</body>
+</html>

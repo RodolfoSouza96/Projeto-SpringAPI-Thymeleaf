@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}">
+</head>
+<body>
+	<div th:replace="~{base :: logo}"></div>	
+	
+	<div class="container">
+		<div th:replace="~{base :: titulo('Pagina Escolar - Cadastro de Alunos')}"></div>
+	
+		<div th:replace="~{base :: navegador}"></div>
+	
+		<div class="card mt-3">
+			<form th:object="${alunoForm}" action="/aluno/novo" class="card-body" method="POST">
+				<div class="form-group mb-2">
+					<label for="nome">Nome </label>
+					<input th:field="*{nome}" th:errorclass="is-invalid" class="form-control" placeholder="Informe o nome do Aluno">
+					<small>Informe o nome do aluno</small>
+					<div th:errors="*{nome}">
+						Erros do nome do aluno
+					</div>
+				</div>
+				<div class="form-group mb-2">
+					<label for="dataDeNascimento">Data de Aniversário </label>
+					<input th:field="*{dataDeNascimento}" class="form-control" type="date">
+					<small>Informe a data de aniversário</small>
+					<div th:errors="*{dataDeNascimento}">
+						Erros da Data de Nascimento
+					</div>
+				</div>		
+				<button class="btn btn-primary" type="submit">Cadastrar</button>	
+			</form>
+		</div>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}">
+</head>
+<body>
+	<div th:replace="~{base :: logo}"></div>
+	
+	<div class="container">
+		<div th:replace="~{base :: titulo('Pagina Escolar - Alunos Listados')}"></div>
+		
+		<div th:replace="~{base :: navegador}"></div>
+	
+		<div class="card mb-3" th:each="aluno : ${alunos}">
+			<div class="card-body">
+					<div>ID: <span th:text="${aluno.id}"></span></div>
+					<div>Nome: <span th:text="${aluno.nome}"></span></div>
+					<div>Data de Nascimento: <span th:text="${#temporals.format(aluno.dataDeNascimento, 'dd/MM/yyyy')}"></span></div>
+			</div>
+		
+		</div>
+	</div>
+</body>
+</html>
